@@ -21,3 +21,5 @@ $ cat tmp.cc
 ## Backends:
 - opencl
 - cpu1 (single-threaded, useful for unit testing or development)
+
+Open an issue or [contact us](mailto:support@gouda-lang.org) to sponsor a new backend.
