@@ -5,6 +5,13 @@ recompile them to target your other hardware. CPU / OpenCL and more.
 
 Read more about the [gouda compiler on the web](https://gouda-lang.org/)
 
+While we'd like to eventually achieve CUDA like performance on other
+devices, we're currently focused on improving support for special
+CUDA C features and expanding backend support.
+
+In its current form, it is primarily useful for experimenting with
+parallel programming on non-CUDA hardware.
+
 ## Installation
 
 Our initial releases are in binary form only. Visit the [releases](https://github.com/goudalang/gouda/releases) to find the compiler for your host system.
