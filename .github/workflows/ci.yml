@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install deps
+        run: |
+          sudo apt update && sudo apt install -y build-essential opencl-headers ocl-icd-opencl-dev clinfo pocl-opencl-icd
+      - name: Verify OpenCL support
+        run: |
+          clinfo
+          if ! clinfo | grep -q "Number of platforms.*[1-9]"; then
+            echo "No OpenCL platforms detected." >&2
+            exit 1
+          fi
+      - name: Grab latest Linux-x64 release.
+        working-directory: testdata
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          asset_url=$(gh release view --repo "${{ github.repository }}" --json assets \
+            --jq '.assets[] | select(.name | test("gouda_linux_x64"; "i")) | .url' | head -n1)
+
+          if [ -z "$asset_url" ]; then
+            echo "No Linux asset found in the latest release" >&2
+            exit 1
+          fi
+
+          asset_name=$(basename "$asset_url")
+          echo "Downloading $asset_name"
+          curl -sSL \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/octet-stream" \
+            -o "gouda" \
+            "$asset_url"
+          chmod +x gouda
+      - name: Run tests
+        working-directory: testdata
+        run: |
+          chmod +x ./testall.sh
+          ./testall.sh
