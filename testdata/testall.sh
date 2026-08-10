@@ -37,4 +37,6 @@ function expect_pass() {
 check_suffix "./demo.sh" " wanted output"
 # check_suffix "./demo.sh" " unwanted output"
 expect_pass "opencl" "fill_vec.cu" "Got: 0 1 2 3 4 5 6 7 8 9"
+expect_pass "opencl" "fill_const.cu" "Got: 2 3 4 5 6 7 8 9 10 11"
+expect_pass "opencl" "fill_device_multi.cu" "Got: 5 7 9 11 13 15 17 19 21 23"
 exit $FINAL
