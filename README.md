@@ -16,6 +16,12 @@ parallel programming on non-CUDA hardware.
 
 Our initial releases are in binary form only. Visit the [releases](https://github.com/goudalang/gouda/releases) to find the compiler for your host system.
 
+## Getting Started:
+
+We have several interesting demos in our [demos](demos/) directory. These include both standard C as well
+as parallel implementations which use Gouda. Most are visual/graphics demo, so you can get a feel for the speedup
+possible by using Gouda.
+
 ## Usage:
 
 ```bash
