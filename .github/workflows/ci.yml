@@ -5,7 +5,7 @@ on:
     branches: [main]
 
 jobs:
-  test:
+  test_linux_x64:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -30,6 +30,37 @@ jobs:
 
           if [ -z "$asset_url" ]; then
             echo "No Linux asset found in the latest release" >&2
+            exit 1
+          fi
+
+          asset_name=$(basename "$asset_url")
+          echo "Downloading $asset_name"
+          curl -sSL \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/octet-stream" \
+            -o "gouda" \
+            "$asset_url"
+          chmod +x gouda
+      - name: Run tests
+        working-directory: testdata
+        run: |
+          chmod +x ./testall.sh
+          ./testall.sh
+  test_mac_arm64:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Grab latest Mac Arm64 release.
+        working-directory: testdata
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          asset_url=$(gh release view --repo "${{ github.repository }}" --json assets \
+            --jq '.assets[] | select(.name | test("gouda_mac_aarch64"; "i")) | .url' | head -n1)
+
+          if [ -z "$asset_url" ]; then
+            echo "No Mac asset found in the latest release" >&2
             exit 1
           fi
 
