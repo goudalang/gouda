@@ -1,11 +1,17 @@
 #!/bin/bash
 
+# Use gtimeout from coreutils on mac.
+TIMEOUT="timeout"
+if [[ "$(uname)" == "Darwin" ]]; then
+    TIMEOUT="gtimeout"
+fi
+
 FINAL=0
 function check_suffix() {
     COMMAND="$1"
     SUFFIX="$2"
     echo "checking $COMMAND for $SUFFIX"
-    OUTPUT="$(timeout 5s $COMMAND)"
+    OUTPUT="$($TIMEOUT 5s $COMMAND)"
     read -rd '' OUTPUT <<< "$OUTPUT"
     if [[ "$OUTPUT" == *"$SUFFIX" ]]; then
         printf "\tOK\n"
