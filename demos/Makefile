@@ -2,3 +2,4 @@
 
 all:
 	make -C life all
+	make -C mandelbrot all
