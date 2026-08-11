@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Install deps
         run: |
-          sudo apt update && sudo apt install -y build-essential opencl-headers ocl-icd-opencl-dev clinfo pocl-opencl-icd
+          sudo apt update && sudo apt install -y build-essential opencl-headers ocl-icd-opencl-dev clinfo pocl-opencl-icd libsdl2-dev
       - name: Verify OpenCL support
         run: |
           clinfo
@@ -46,6 +46,13 @@ jobs:
         run: |
           chmod +x ./testall.sh
           ./testall.sh
+      - name: Build demos
+        working-directory: demos
+        run: |
+          export PATH="$(pwd)/../testdata:$PATH"
+          echo "path=$PATH"
+          make
+
   test_mac_arm64:
     runs-on: macos-latest
     steps:
@@ -53,7 +60,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Install deps
         run: |
-          brew install coreutils
+          brew install coreutils sdl2
       - name: Grab latest Mac Arm64 release.
         working-directory: testdata
         env:
@@ -75,6 +82,7 @@ jobs:
             -o "gouda" \
             "$asset_url"
           chmod +x gouda
+          export PATH="$(pwd)":"$PATH"
       - name: Test compile.
         working-directory: testdata
         run: |
@@ -82,3 +90,8 @@ jobs:
           # test that a build succeeds.
           ./gouda fill_vec.cu --backend opencl -o fill_vec_cu
           file fill_vec_cu
+      - name: Build demos
+        working-directory: demos
+        run: |
+          export PATH="$(pwd)/../testdata:$PATH"
+          make
