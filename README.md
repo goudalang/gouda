@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="./logo_large.png" alt="gouda : cross platform cuda compatible compiler" width="450" height="450" />
+</div>
+
 # Gouda Compiler
 
 A drop-in replacement for nvcc. Take your existing CUDA Cpp programs, and
@@ -43,3 +47,6 @@ $ cat tmp.cc
 - cpu1 (single-threaded, useful for unit testing or development)
 
 Open an issue or [contact us](mailto:support@gouda-lang.org) to sponsor a new backend.
+
+## AI Disclaimer
+ChatGPT was used for the logo, all other code was hand written.
