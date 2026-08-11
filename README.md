@@ -16,6 +16,13 @@ parallel programming on non-CUDA hardware.
 
 Our initial releases are in binary form only. Visit the [releases](https://github.com/goudalang/gouda/releases) to find the compiler for your host system.
 
+We also have an installer script which should detect your platform and install the latest release:
+
+```bash
+# Installer from https://github.org/goudalang/gouda_installer/
+curl -fsSl https://gouda-lang.org/install.sh -O && bash ./install.sh
+```
+
 ## Getting Started:
 
 We have several interesting demos in our [demos](demos/) directory. These include both standard C as well
