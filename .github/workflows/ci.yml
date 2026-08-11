@@ -75,8 +75,10 @@ jobs:
             -o "gouda" \
             "$asset_url"
           chmod +x gouda
-      - name: Run tests
+      - name: Test compile.
         working-directory: testdata
         run: |
-          chmod +x ./testall.sh
-          ./testall.sh
+          # Unfortunately mac doesnt support opencl when virtualized, so we just
+          # test that a build succeeds.
+          ./gouda fill_vec.cu --backend opencl -o fill_vec_cu
+          file fill_vec_cu
