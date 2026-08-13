@@ -2,6 +2,11 @@
   <img src="./logo_large.png" alt="gouda : cross platform cuda compatible compiler" width="450" height="450" />
 </div>
 
+<img src="https://img.shields.io/github/downloads/goudalang/gouda/total?label=Downloads" alt="number of downloads" />
+<img src="https://img.shields.io/github/actions/workflow/status/goudalang/gouda/ci.yml" alt="build status" />
+
+
+
 # Gouda Compiler
 
 A drop-in replacement for nvcc. Take your existing CUDA Cpp programs, and
