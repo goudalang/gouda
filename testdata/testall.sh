@@ -27,7 +27,7 @@ function expect_pass() {
     SUFFIX="$3"
     echo "$INFILE via $BACKEND"
     rm a.out
-    OUTPUT=$(./gouda --backend=$BACKEND "$INFILE" -o a.out)
+    OUTPUT=$(./gouda --backend $BACKEND "$INFILE" -o a.out)
     CODE=$?
     printf 'checking '%s'\n' "$OUTPUT"
     if [[ "$CODE" -ne "0" ]]; then
@@ -40,9 +40,27 @@ function expect_pass() {
     check_suffix "./a.out" "$SUFFIX"
 }
 
+function expect_all() {
+    INFILE="$1"
+    SUFFIX="$2"
+    BACKENDS="opencl serial"
+    echo "CI = $CI"
+    if [[ "$CI" == "true" && "$(uname)" == "Darwin" ]]; then
+        echo "CI DETECTED! Using only serial backend for mac."
+        # Virtualized Mac, like our CI, doesn't support OpenCL.
+        BACKENDS="serial"
+    fi
+
+    for backend in $BACKENDS; do
+        expect_pass "$backend" "$INFILE" "$SUFFIX"
+    done
+
+    echo "Finished testing against ${BACKENDS}"
+}
+
 check_suffix "./demo.sh" " wanted output"
 # check_suffix "./demo.sh" " unwanted output"
-expect_pass "opencl" "fill_vec.cu" "Got: 0 1 2 3 4 5 6 7 8 9"
-expect_pass "opencl" "fill_const.cu" "Got: 2 3 4 5 6 7 8 9 10 11"
-expect_pass "opencl" "fill_device_multi.cu" "Got: 5 7 9 11 13 15 17 19 21 23"
+expect_all "fill_vec.cu" "Got: 0 1 2 3 4 5 6 7 8 9"
+expect_all "fill_const.cu" "Got: 2 3 4 5 6 7 8 9 10 11"
+expect_all "fill_device_multi.cu" "Got: 5 7 9 11 13 15 17 19 21 23"
 exit $FINAL

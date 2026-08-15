@@ -6,7 +6,6 @@
 <img src="https://img.shields.io/github/actions/workflow/status/goudalang/gouda/ci.yml" alt="build status" />
 
 
-
 # Gouda Compiler
 
 A drop-in replacement for nvcc. Take your existing CUDA Cpp programs, and
@@ -49,9 +48,10 @@ $ cat tmp.cc
 
 ## Backends:
 - opencl
-- cpu1 (single-threaded, useful for unit testing or development)
+- serial (single-threaded, useful for unit testing or development)
 
 Open an issue or [contact us](mailto:support@gouda-lang.org) to sponsor a new backend.
 
-## AI Disclaimer
-ChatGPT was used for the logo, all other code was hand written.
+## LLM Disclaimer
+ChatGPT was used for the logo, all other core code was hand written. LLMs may be used
+for some of the demo projects.
